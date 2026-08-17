@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "Subscription Wizard",
+  "version": "1.0.0",
+  "description": "Compare, migrate, and manage Amazon Subscribe & Save subscriptions across accounts.",
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.com/*subscribe*",
+        "*://*.amazon.com/*auto-deliveries*",
+        "*://*.amazon.com/gp/subscribe-and-save/*",
+        "*://*.amazon.com/fmc/*sns*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "icons/icon48.png",
+    "icons/icon128.png"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "amazon-subscription-tools@local",
+      "strict_min_version": "109.0"
+    }
+  }
+}

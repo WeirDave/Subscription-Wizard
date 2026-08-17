@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subscription Wizard Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Amazon Ember", "Segoe UI", Arial, sans-serif;
+      background: #f5f5f5;
+      color: #0f1111;
+      min-height: 100vh;
+    }
+    .header {
+      background: #232f3e;
+      padding: 20px 32px;
+      color: #fff;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffa41c;
+    }
+    .header p {
+      font-size: 13px;
+      color: #a0aec0;
+      margin-top: 4px;
+    }
+    .container {
+      max-width: 640px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #d5d9d9;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e7e7e7;
+    }
+    .card p {
+      font-size: 13px;
+      color: #565959;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 13px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-label { color: #565959; }
+    .status-value { font-weight: 600; }
+    .status-value.has-data { color: #067d06; }
+    .status-value.no-data { color: #888; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn-danger {
+      background: #cc0c39;
+      color: #fff;
+      border-color: #a00a2e;
+    }
+    .btn-danger:hover { background: #a00a2e; }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #0f1111;
+      border-color: #d5d9d9;
+    }
+    .btn-secondary:hover { background: #e3e3e3; }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .version {
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 24px;
+      padding-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="icons/icon128.png" alt="SW" style="width:40px;height:40px;border-radius:8px;">
+      <div>
+        <h1>Subscription Wizard</h1>
+        <p>Amazon Subscribe & Save Management Tools</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>Saved Data</h2>
+      <p>Scan data is stored locally in your browser's extension storage. It persists across sessions until you clear it.</p>
+      <div id="status-list">
+        <div class="status-row">
+          <span class="status-label">Personal Scan</span>
+          <span class="status-value no-data" id="personal-status">Loading...</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Business Scan</span>
+          <span class="status-value no-data" id="business-status">Loading...</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Reset</h2>
+      <p>Clear all saved scan data and comparison results. This cannot be undone.</p>
+      <div class="btn-group">
+        <button class="btn btn-danger" id="reset-all">Clear All Data</button>
+        <button class="btn btn-secondary" id="reset-personal">Clear Personal Scan</button>
+        <button class="btn btn-secondary" id="reset-business">Clear Business Scan</button>
+      </div>
+    </div>
+  </div>
+  <div class="version" id="version-info"></div>
+  <script src="options.js"></script>
+</body>
+</html>
