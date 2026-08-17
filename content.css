@@ -385,6 +385,14 @@
   padding-right: 6px;
 }
 
+.ast-td-addr {
+  font-size: 12px;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ── Row Highlights ── */
 
 .ast-row-personal {

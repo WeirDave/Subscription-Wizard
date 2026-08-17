@@ -127,6 +127,11 @@
         small
           .find((s) => s.textContent.includes("unit"))
           ?.textContent.trim() ?? "";
+      const allSmall = [...card.querySelectorAll("span.a-size-small, span.a-size-base, span.a-color-secondary")];
+      const addressEl = allSmall.find((s) => /deliver\s*to|ship\s*to/i.test(s.textContent));
+      const address = addressEl
+        ? addressEl.textContent.replace(/^(deliver|ship)\s*to:?\s*/i, "").trim()
+        : "";
       const asin = params.get("subAsin") ?? "";
       const subscriptionId = params.get("subscriptionId") ?? "";
       return {
@@ -135,6 +140,7 @@
         SubscriptionID: subscriptionId,
         NextDelivery: nextDelivery,
         Frequency: frequency,
+        Address: address,
         ProductURL: asin ? `https://www.amazon.com/dp/${asin}` : "",
       };
     });
@@ -277,6 +283,7 @@
         ASIN: item.asin,
         Frequency: item.frequency,
         NextDelivery: item.nextDelivery,
+        Address: item.address || "",
         SnSPrice: item.snsPrice != null ? fmt(item.snsPrice) : "",
         OneTimePrice: item.onetimePrice != null ? fmt(item.onetimePrice) : "",
         PreviousSnSPrice: item.previousSnsPrice != null ? fmt(item.previousSnsPrice) : "",
@@ -337,6 +344,11 @@
       setButtonState(btn, "Looking for subscriptions...", true);
       await sleep(2000);
       if (document.querySelectorAll("[data-edit-url]").length === 0) {
+        if (location.href.includes("/manager/viewsubscriptions")) {
+          alert("No subscriptions found on this account.\n\nIf you expected subscriptions, try refreshing the page.");
+          setButtonState(btn, "Scan Prices", false);
+          return;
+        }
         setButtonState(btn, "Redirecting to subscriptions...", true);
         window.location.href =
           "https://www.amazon.com/gp/subscribe-and-save/manager/viewsubscriptions#ast-scan";
@@ -357,6 +369,7 @@
         ASIN: item.asin,
         Frequency: item.frequency,
         NextDelivery: item.nextDelivery,
+        Address: item.address || "",
       }));
       console.log(`AST: No subscriptions on page — using ${otherScan.items.length} ASINs from ${otherKey}`);
     }
@@ -381,6 +394,7 @@
             ASIN: item.asin,
             Frequency: item.frequency,
             NextDelivery: item.nextDelivery,
+            Address: item.address || "",
             _subscribed: false,
           });
           pageAsins.add(item.asin);
@@ -419,6 +433,7 @@
         asin: sub.ASIN,
         frequency: sub.Frequency,
         nextDelivery: sub.NextDelivery,
+        address: sub.Address || "",
         snsPrice: prices.snsPrice,
         onetimePrice: prices.onetimePrice,
         previousSnsPrice: prev ?? null,
@@ -565,6 +580,8 @@
         asin,
         frequency,
         perYear,
+        pAddress: p?.address || "",
+        bAddress: b?.address || "",
         pPrice,
         bPrice,
         pOtp: p?.onetimePrice,
@@ -595,6 +612,8 @@
               : "";
         return `<tr class="${rowClass}">
         <td class="ast-td-title">${r.title}</td>
+        <td class="ast-td-addr">${r.pAddress || "—"}</td>
+        <td class="ast-td-addr">${r.bAddress || "—"}</td>
         <td class="ast-td-num">${fmt(r.pPrice)}</td>
         <td class="ast-td-num">${fmt(r.bPrice)}</td>
         <td class="ast-td-num">${r.diff != null ? (r.diff > 0 ? "+" : "") + fmt(r.diff).replace("$", "$") : "—"}</td>
@@ -661,6 +680,8 @@
             <thead>
               <tr>
                 <th>Product</th>
+                <th>Personal Address</th>
+                <th>Business Address</th>
                 <th>Personal S&S</th>
                 <th>Business S&S</th>
                 <th>Difference</th>
@@ -689,6 +710,8 @@
         ASIN: r.asin,
         Frequency: r.frequency,
         "Deliveries/Year": r.perYear,
+        "Personal Address": r.pAddress || "",
+        "Business Address": r.bAddress || "",
         "Personal S&S": r.pPrice != null ? r.pPrice : "",
         "Business S&S": r.bPrice != null ? r.bPrice : "",
         "Personal One-Time": r.pOtp != null ? r.pOtp : "",
@@ -721,17 +744,19 @@
   async function handleBulkCancel() {
     const btn = document.getElementById("ast-bulk-cancel");
 
-    if (!location.href.includes("/manager/viewsubscriptions")) {
-      const quickCount = document.querySelectorAll("[data-edit-url]").length;
-      if (!quickCount) {
-        setButtonState(btn, "Redirecting to subscriptions...", true);
-        window.location.href =
-          "https://www.amazon.com/gp/subscribe-and-save/manager/viewsubscriptions#ast-bulk-cancel";
+    const quickCount = document.querySelectorAll("[data-edit-url]").length;
+    if (!quickCount) {
+      if (location.href.includes("/manager/viewsubscriptions")) {
+        alert("No subscriptions found on this account to cancel.");
+        setButtonState(btn, "Bulk Cancel", false);
         return;
       }
+      setButtonState(btn, "Redirecting to subscriptions...", true);
+      window.location.href =
+        "https://www.amazon.com/gp/subscribe-and-save/manager/viewsubscriptions#ast-bulk-cancel";
+      return;
     }
 
-    const quickCount = document.querySelectorAll("[data-edit-url]").length;
     const confirmed = confirm(
       `WARNING: This will cancel ALL subscriptions on this account (at least ${quickCount} visible).\n\n` +
       `Make sure you've already set up these subscriptions on your other account before proceeding.\n\n` +
