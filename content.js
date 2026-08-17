@@ -3,6 +3,11 @@
 
   const FETCH_DELAY_MS = 1200;
 
+  function safeSetHTML(el, html) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    el.replaceChildren(...doc.body.childNodes);
+  }
+
   // ── Utilities ──
 
   function sleep(ms) {
@@ -615,7 +620,7 @@
         </div>`;
     }
 
-    overlay.innerHTML = `
+    safeSetHTML(overlay, `
       <div class="ast-overlay-backdrop"></div>
       <div class="ast-overlay-content">
         <div class="ast-overlay-header">
@@ -671,7 +676,7 @@
           <button class="ast-btn ast-btn-close">Close</button>
         </div>
       </div>
-    `;
+    `);
 
     document.body.appendChild(overlay);
 
@@ -1034,7 +1039,7 @@
         })
         .join("");
 
-      overlay.innerHTML = `
+      safeSetHTML(overlay, `
         <div class="ast-overlay-backdrop"></div>
         <div class="ast-overlay-content">
           <div class="ast-overlay-header">
@@ -1075,7 +1080,7 @@
             <button class="ast-btn ast-btn-close">Cancel</button>
           </div>
         </div>
-      `;
+      `);
 
       const close = () => overlay.remove();
       overlay.querySelector(".ast-close-btn").addEventListener("click", close);
@@ -1229,7 +1234,7 @@
       const done = state.index >= items.length;
 
       if (done) {
-        panel.innerHTML = `
+        safeSetHTML(panel, `
           <div class="ast-nav-header">
             <img src="${browser.runtime.getURL("icons/icon48.png")}" alt="SW" style="width:24px;height:24px;border-radius:4px;">
             <strong>Subscribe Navigator</strong>
@@ -1243,7 +1248,7 @@
             </div>
             <button class="ast-btn ast-btn-scan ast-nav-finish">Close & Refresh</button>
           </div>
-        `;
+        `);
         panel.querySelector(".ast-nav-close").addEventListener("click", () => panel.remove());
         panel.querySelector(".ast-nav-finish").addEventListener("click", () => {
           panel.remove();
@@ -1252,7 +1257,7 @@
         return;
       }
 
-      panel.innerHTML = `
+      safeSetHTML(panel, `
         <div class="ast-nav-header">
           <img src="${browser.runtime.getURL("icons/icon48.png")}" alt="SW" style="width:24px;height:24px;border-radius:4px;">
           <strong>Subscribe Navigator</strong>
@@ -1278,7 +1283,7 @@
         <div class="ast-nav-stats">
           Subscribed: ${state.results.subscribed} &nbsp;|&nbsp; Skipped: ${state.results.skipped}${state.results.failed ? ` &nbsp;|&nbsp; Failed: ${state.results.failed}` : ""}
         </div>
-      `;
+      `);
 
       panel.querySelector(".ast-nav-close").addEventListener("click", () => {
         if (state.results.subscribed > 0) {
