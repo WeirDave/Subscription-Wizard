@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Validate release tag
+        shell: bash
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+(\.[0-9]+)+$ ]]; then
+            echo "Unexpected release tag: $RELEASE_TAG" >&2
+            exit 1
+          fi
+
+      - name: Checkout the released tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Verify manifest version matches tag
+        shell: bash
+        run: |
+          TAG_VERSION="${RELEASE_TAG#v}"
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "Tag $RELEASE_TAG does not match manifest.json version $MANIFEST_VERSION" >&2
+            exit 1
+          fi
+
+      - name: Build extension ZIP
+        id: package
+        shell: bash
+        run: |
+          version="${RELEASE_TAG#v}"
+          asset="Amazon-Subscription-Wizard-${version}.zip"
+          mkdir -p dist
+
+          zip "dist/${asset}" \
+            manifest.json \
+            content.js \
+            content.css \
+            options.html \
+            options.js \
+            icons/icon48.png \
+            icons/icon128.png
+
+          echo "asset=dist/${asset}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload ZIP to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            "${{ steps.package.outputs.asset }}" \
+            --clobber
