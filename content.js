@@ -645,7 +645,7 @@
         <div class="ast-overlay-header">
           <div style="display:flex;align-items:center;gap:12px;">
             <img src="${browser.runtime.getURL("icons/icon128.png")}" alt="SW" style="width:48px;height:48px;border-radius:8px;">
-            <h2>Subscription Wizard Price Comparison</h2>
+            <h2>Amazon Subscription Wizard Price Comparison</h2>
           </div>
           <button class="ast-close-btn">&times;</button>
         </div>
@@ -1501,7 +1501,7 @@
     logo.src = browser.runtime.getURL("icons/icon48.png");
     logo.className = "ast-brand-logo";
     brand.appendChild(logo);
-    brand.appendChild(document.createTextNode("Subscription Wizard"));
+    brand.appendChild(document.createTextNode("Amazon Subscription Wizard"));
     toolbar.appendChild(brand);
 
     const btnGroup = document.createElement("div");

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Subscription Wizard Settings</title>
+  <title>Amazon Subscription Wizard Settings</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -94,6 +94,20 @@
       gap: 10px;
       margin-top: 8px;
     }
+    .diag-block {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 12px;
+      background: #f9f9f9;
+      border: 1px solid #d5d9d9;
+      border-radius: 6px;
+      padding: 12px;
+      margin: 0 0 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #565959;
+      max-height: 200px;
+      overflow: auto;
+    }
     .version {
       text-align: center;
       font-size: 11px;
@@ -108,7 +122,7 @@
     <div style="display:flex;align-items:center;gap:12px;">
       <img src="icons/icon128.png" alt="SW" style="width:40px;height:40px;border-radius:8px;">
       <div>
-        <h1>Subscription Wizard</h1>
+        <h1>Amazon Subscription Wizard</h1>
         <p>Amazon Subscribe & Save Management Tools</p>
       </div>
     </div>
@@ -135,6 +149,21 @@
         <button class="btn btn-danger" id="reset-all">Clear All Data</button>
         <button class="btn btn-secondary" id="reset-personal">Clear Personal Scan</button>
         <button class="btn btn-secondary" id="reset-business">Clear Business Scan</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Help & Diagnostics</h2>
+      <p>If something isn't working, copy the diagnostic info below and include it in your bug report.</p>
+      <pre class="diag-block" id="diag-block">Gathering...</pre>
+      <div class="btn-group">
+        <button class="btn btn-secondary" id="copy-diag">Copy Diagnostics</button>
+        <button class="btn btn-secondary" id="open-issue">Report a Bug</button>
+      </div>
+      <p id="diag-status" style="font-size:12px;color:#067d06;margin-top:8px;min-height:16px;"></p>
+      <div style="margin-top:12px;font-size:13px;color:#565959;">
+        <a href="https://github.com/WeirDave/Subscription-Wizard/issues" target="_blank" rel="noopener" style="color:#0066c0;">View all issues</a>
+        <span style="color:#ccc;margin:0 6px;">·</span>
+        <a href="https://github.com/WeirDave/Subscription-Wizard" target="_blank" rel="noopener" style="color:#0066c0;">GitHub repo</a>
       </div>
     </div>
   </div>

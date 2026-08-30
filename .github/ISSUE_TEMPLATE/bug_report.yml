@@ -1,0 +1,62 @@
+name: Bug report
+description: Something broke or behaved unexpectedly in Subscription Wizard.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please describe what happened and include your environment details.
+
+        > Found a **security** problem? Don't open a public issue — use [private vulnerability reporting](https://github.com/WeirDave/Subscription-Wizard/security/advisories/new) instead.
+
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened
+      description: Describe the problem in your own words.
+      placeholder: "When I clicked Scan on my Subscribe & Save page, ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps that get the problem to happen again.
+      placeholder: |
+        1. Open Amazon Subscribe & Save page
+        2. Click Scan in the Subscription Wizard toolbar
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+      placeholder: "All subscriptions should be listed with their prices."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Use the Help & Diagnostics section in the extension options page to copy diagnostic info and paste it below.
+      options:
+        - label: I copied diagnostic info from the options page
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Paste the diagnostic info copied from the options page, or fill in manually.
+      render: shell
+      placeholder: |
+        Subscription Wizard v1.0.0
+        Browser  : Firefox 142
+        OS       : Windows 11
+        Amazon   : amazon.com
+    validations:
+      required: true

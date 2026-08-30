@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="icons/Subscription Wizard Logo v3_950x950.png" alt="Subscription Wizard" width="220">
+  <img src="icons/Subscription Wizard Logo v3_950x950.png" alt="Amazon Subscription Wizard" width="220">
 </p>
 
-<h3 align="center">Find the best price for every subscription.</h3>
+<h3 align="center">Find the best price for every Amazon subscription.</h3>
 
 <p align="center">
   <a href="https://addons.mozilla.org/en-US/firefox/addon/subscription-wizard/"><img src="https://img.shields.io/badge/Firefox-Install_from_AMO-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white" alt="Install from AMO"></a>
@@ -18,9 +18,9 @@
 
 ---
 
-## What is Subscription Wizard?
+## What is Amazon Subscription Wizard?
 
-Subscription Wizard is a Firefox extension that compares Amazon Subscribe & Save
+Amazon Subscription Wizard is a Firefox extension that compares Amazon Subscribe & Save
 pricing across your personal and business accounts. Scan both sides, see every
 product side by side, and migrate subscriptions to whichever account has the
 better price — all from a toolbar that appears on your Subscribe & Save page.
@@ -112,6 +112,15 @@ landing.html      Landing page for AMO and GitHub
 - No tracking, analytics, or telemetry of any kind
 - No accounts or sign-ups required
 - Your subscription data never leaves your browser
+
+## Help & Support
+
+If something isn't working:
+
+- **In the extension:** Open the extension's **Options** page (right-click the extension icon → Manage Extension → Preferences). The Help & Diagnostics section captures your environment info and lets you open a pre-filled bug report.
+- **Report a bug:** [Open a new issue](https://github.com/WeirDave/Subscription-Wizard/issues/new?template=bug_report.yml)
+- **View existing issues:** [GitHub Issues](https://github.com/WeirDave/Subscription-Wizard/issues)
+- **Security vulnerabilities:** Use [private vulnerability reporting](https://github.com/WeirDave/Subscription-Wizard/security/advisories/new) — don't open a public issue.
 
 ## Updates
 
