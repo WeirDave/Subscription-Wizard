@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Amazon Subscription Wizard</title>
+<style>
+  :root {
+    --bg: #f6f4f1;
+    --bg-card: #ffffff;
+    --bg-hero: #232f3e;
+    --text: #1a1d21;
+    --text-muted: #5c6370;
+    --text-on-dark: #e8e6e3;
+    --accent: #ffa41c;
+    --accent-hover: #e8920f;
+    --green: #067d06;
+    --blue: #0066c0;
+    --purple: #7b2d8e;
+    --border: #ddd9d4;
+    --shadow: rgba(35, 47, 62, 0.12);
+    --step-line: #ddd9d4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #13161b;
+      --bg-card: #1e2128;
+      --text: #e0ddd8;
+      --text-muted: #8b8d93;
+      --text-on-dark: #c8c5c0;
+      --border: #2e3138;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --step-line: #2e3138;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--bg-hero);
+    padding: 64px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 600px 400px at 20% 80%, rgba(255, 164, 28, 0.06), transparent),
+      radial-gradient(ellipse 500px 350px at 80% 20%, rgba(123, 45, 142, 0.05), transparent);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 164, 28, 0.15);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-on-dark);
+    max-width: 480px;
+    margin: 0 auto;
+    opacity: 0.9;
+  }
+
+  /* ── Sections ── */
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+  }
+
+  .section {
+    padding: 48px 0;
+  }
+
+  .section + .section {
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  .section > p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  /* ── Timeline Steps ── */
+  .timeline {
+    position: relative;
+    padding-left: 48px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--step-line);
+  }
+
+  .timeline-step {
+    position: relative;
+    padding-bottom: 36px;
+  }
+
+  .timeline-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -48px;
+    top: 2px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    z-index: 1;
+  }
+
+  .timeline-dot--1 { background: #007185; }
+  .timeline-dot--2 { background: var(--purple); }
+  .timeline-dot--3 { background: var(--blue); }
+  .timeline-dot--4 { background: var(--green); }
+
+  .timeline-step h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .timeline-step p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .timeline-step .tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── Screenshot placeholder ── */
+  .screenshot-frame {
+    margin: 32px 0 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px var(--shadow);
+  }
+
+  .screenshot-frame img {
+    width: 100%;
+    display: block;
+  }
+
+  .screenshot-placeholder {
+    background: var(--bg-card);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* ── Feature Pills ── */
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1 1 calc(50% - 5px);
+    min-width: 200px;
+  }
+
+  .pill-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .pill-icon--scan { background: rgba(0, 113, 133, 0.1); color: #007185; }
+  .pill-icon--compare { background: rgba(123, 45, 142, 0.1); color: var(--purple); }
+  .pill-icon--subscribe { background: rgba(6, 125, 6, 0.1); color: var(--green); }
+  .pill-icon--navigate { background: rgba(0, 102, 192, 0.1); color: var(--blue); }
+  .pill-icon--export { background: rgba(255, 164, 28, 0.12); color: #c7811a; }
+  .pill-icon--privacy { background: rgba(204, 12, 57, 0.1); color: #cc0c39; }
+
+  .pill-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .pill-title {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .pill-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  /* ── CTA Section ── */
+  .cta-section {
+    background: var(--bg-hero);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  .cta-section h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .cta-section p {
+    color: var(--text-on-dark);
+    opacity: 0.85;
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #1a1d21;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .cta-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .footer a {
+    color: var(--blue);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 8px;
+  }
+
+  /* ── Privacy Banner ── */
+  .privacy-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(6, 125, 6, 0.08);
+    border: 1px solid rgba(6, 125, 6, 0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 32px;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .privacy-banner-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .privacy-banner strong {
+    color: var(--green);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate {
+    animation: fadeUp 0.5s ease-out both;
+  }
+
+  .animate-delay-1 { animation-delay: 0.1s; }
+  .animate-delay-2 { animation-delay: 0.2s; }
+  .animate-delay-3 { animation-delay: 0.3s; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 48px 20px 40px; }
+    .hero h1 { font-size: 28px; }
+    .hero-sub { font-size: 16px; }
+    .section h2 { font-size: 22px; }
+    .pill { flex: 1 1 100%; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge animate">&#x2728; Successfully Installed</div>
+    <br>
+    <img class="hero-logo animate animate-delay-1"
+         id="hero-logo"
+         src="icons/icon128.png"
+         alt="Amazon Subscription Wizard">
+    <h1 class="animate animate-delay-2">Welcome to <span>Amazon Subscription Wizard</span></h1>
+    <p class="hero-sub animate animate-delay-3">
+      Find the best Subscribe &amp; Save price on every product across your Amazon accounts.
+    </p>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- How It Works -->
+  <div class="section">
+    <div class="section-label">Quick Start</div>
+    <h2>Up and running in 3 scans</h2>
+    <p>The toolbar appears automatically on your Amazon Subscribe &amp; Save page.</p>
+
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-dot timeline-dot--1">1</div>
+        <h3>Scan your personal account</h3>
+        <p>Go to your Subscribe &amp; Save page and click <strong>Scan Prices</strong>. The extension reads every subscription and fetches real-time S&amp;S and one-time pricing.</p>
+        <div class="tip">&#x23F1; ~3 sec per item to stay under Amazon's rate limits</div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot timeline-dot--2">2</div>
+        <h3>Switch to business and scan again</h3>
+        <p>Log into your Amazon Business account and scan. The extension merges your personal products so it gets business prices for everything.</p>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot timeline-dot--3">3</div>
+        <h3>Switch back and re-scan personal</h3>
+        <p>Return to your personal account and scan one more time. This picks up prices for any business-only subscriptions, giving you complete coverage.</p>
+        <div class="tip">&#x1F4A1; Only one account? Two scans is all you need</div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-dot timeline-dot--4">4</div>
+        <h3>Compare and migrate</h3>
+        <p>Click <strong>Compare</strong> to see every product side by side. Use <strong>Bulk Subscribe</strong> to move subscriptions in bulk, or <strong>Subscribe Navigator</strong> to move them one at a time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="section">
+    <div class="section-label">Features</div>
+    <h2>Everything you need</h2>
+    <p>Built for people who shop across personal and business Amazon accounts.</p>
+
+    <div class="pills">
+      <div class="pill">
+        <div class="pill-icon pill-icon--scan">&#x1F50D;</div>
+        <div class="pill-text">
+          <span class="pill-title">Scan Prices</span>
+          <span class="pill-desc">Real-time S&amp;S and one-time pricing</span>
+        </div>
+      </div>
+      <div class="pill">
+        <div class="pill-icon pill-icon--compare">&#x2696;</div>
+        <div class="pill-text">
+          <span class="pill-title">Side-by-Side Compare</span>
+          <span class="pill-desc">Annual savings calculated instantly</span>
+        </div>
+      </div>
+      <div class="pill">
+        <div class="pill-icon pill-icon--subscribe">&#x1F4E6;</div>
+        <div class="pill-text">
+          <span class="pill-title">Bulk Subscribe</span>
+          <span class="pill-desc">Move subscriptions in one click</span>
+        </div>
+      </div>
+      <div class="pill">
+        <div class="pill-icon pill-icon--navigate">&#x27A1;</div>
+        <div class="pill-text">
+          <span class="pill-title">Subscribe Navigator</span>
+          <span class="pill-desc">Step through items selectively</span>
+        </div>
+      </div>
+      <div class="pill">
+        <div class="pill-icon pill-icon--export">&#x1F4CA;</div>
+        <div class="pill-text">
+          <span class="pill-title">CSV Export</span>
+          <span class="pill-desc">Full reports with price change tracking</span>
+        </div>
+      </div>
+      <div class="pill">
+        <div class="pill-icon pill-icon--privacy">&#x1F512;</div>
+        <div class="pill-text">
+          <span class="pill-title">Privacy First</span>
+          <span class="pill-desc">All data stays in your browser</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="privacy-banner">
+      <div class="privacy-banner-icon">&#x1F6E1;</div>
+      <div>
+        <strong>Your data never leaves your machine.</strong>
+        No external servers, no tracking, no accounts required. Everything is stored in Firefox's local extension storage.
+      </div>
+    </div>
+  </div>
+
+  <!-- Get Started CTA -->
+  <div class="cta-section">
+    <h2>Ready to find savings?</h2>
+    <p>Head to your Amazon Subscribe &amp; Save page to get started.</p>
+    <a class="cta-btn" href="https://www.amazon.com/auto-deliveries" target="_blank" rel="noopener">
+      Go to Subscribe &amp; Save &#x2192;
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">
+  Amazon Subscription Wizard &middot; Built by <a href="https://github.com/WeirDave" target="_blank" rel="noopener">WeirDave</a>
+  <div class="footer-links">
+    <a href="https://github.com/WeirDave/Subscription-Wizard" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/WeirDave/Subscription-Wizard/issues" target="_blank" rel="noopener">Support</a>
+    <a href="https://github.com/sponsors/WeirDave" target="_blank" rel="noopener">Sponsor</a>
+  </div>
+</div>
+
+<script>
+  if (typeof browser !== "undefined" && browser.runtime) {
+    document.getElementById("hero-logo").src = browser.runtime.getURL("icons/icon128.png");
+  }
+</script>
+</body>
+</html>

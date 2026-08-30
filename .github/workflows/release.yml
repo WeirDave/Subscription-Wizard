@@ -50,10 +50,12 @@ jobs:
 
           zip "dist/${asset}" \
             manifest.json \
+            background.js \
             content.js \
             content.css \
             options.html \
             options.js \
+            welcome.html \
             icons/icon48.png \
             icons/icon128.png
 
