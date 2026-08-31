@@ -56,7 +56,13 @@ jobs:
             options.html \
             options.js \
             welcome.html \
+            popup.html \
+            popup.js \
+            icons/icon16.png \
+            icons/icon32.png \
             icons/icon48.png \
+            icons/icon64.png \
+            icons/icon96.png \
             icons/icon128.png
 
           echo "asset=dist/${asset}" >> "$GITHUB_OUTPUT"
