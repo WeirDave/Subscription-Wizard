@@ -5,6 +5,7 @@
 <h3 align="center">Find the best price for every Amazon subscription.</h3>
 
 <p align="center">
+  <a href="https://github.com/sponsors/WeirDave"><img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/subscription-wizard/"><img src="https://img.shields.io/badge/Firefox-Install_from_AMO-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white" alt="Install from AMO"></a>
   <a href="https://github.com/WeirDave/Subscription-Wizard/releases/latest"><img src="https://img.shields.io/github/v/release/WeirDave/Subscription-Wizard?style=for-the-badge&color=7b2d8e" alt="Latest Release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/WeirDave/Subscription-Wizard?style=for-the-badge" alt="License"></a>
