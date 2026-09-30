@@ -256,16 +256,24 @@
 
   // ── CSV ──
 
+  // A spreadsheet treats a cell starting with = + - @ (or a tab or carriage
+  // return) as a formula even inside quotes, and product names and addresses
+  // come from Amazon's pages. Those get a leading apostrophe so they open as
+  // text. Prices and signed amounts such as +$1.25 or $-0.40 are left alone.
+  function csvCell(value) {
+    let s = String(value ?? "");
+    if (/^[=+\-@\t\r]/.test(s) && !/^[+-]?\$?-?\d[\d,]*(\.\d+)?$/.test(s)) {
+      s = "'" + s;
+    }
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+
   function toCSV(rows) {
     if (!rows.length) return "";
     const headers = Object.keys(rows[0]);
     return [
       headers.join(","),
-      ...rows.map((r) =>
-        headers
-          .map((h) => `"${String(r[h] ?? "").replace(/"/g, '""')}"`)
-          .join(",")
-      ),
+      ...rows.map((r) => headers.map((h) => csvCell(r[h])).join(",")),
     ].join("\r\n");
   }
 

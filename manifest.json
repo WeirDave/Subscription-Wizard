@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Amazon Subscription Wizard",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Compare, migrate, and manage Amazon Subscribe & Save subscriptions across accounts.",
   "icons": {
     "16": "icons/icon16.png",
