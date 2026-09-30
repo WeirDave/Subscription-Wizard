@@ -8,6 +8,18 @@
     el.replaceChildren(...doc.body.childNodes);
   }
 
+  // Titles, addresses and frequencies are read from Amazon's page text. Parsing
+  // with DOMParser stops <script>, but inline handlers such as onerror still
+  // fire once the nodes join the page, so page text must be escaped first.
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   // ── Utilities ──
 
   function sleep(ms) {
@@ -611,9 +623,9 @@
               ? "ast-row-business"
               : "";
         return `<tr class="${rowClass}">
-        <td class="ast-td-title">${r.title}</td>
-        <td class="ast-td-addr">${r.pAddress || "—"}</td>
-        <td class="ast-td-addr">${r.bAddress || "—"}</td>
+        <td class="ast-td-title">${escapeHtml(r.title)}</td>
+        <td class="ast-td-addr">${escapeHtml(r.pAddress || "—")}</td>
+        <td class="ast-td-addr">${escapeHtml(r.bAddress || "—")}</td>
         <td class="ast-td-num">${fmt(r.pPrice)}</td>
         <td class="ast-td-num">${fmt(r.bPrice)}</td>
         <td class="ast-td-num">${r.diff != null ? (r.diff > 0 ? "+" : "") + fmt(r.diff) : "—"}</td>
@@ -1056,10 +1068,10 @@
           const shortTitle = item.title.length > 55 ? item.title.slice(0, 52) + "..." : item.title;
           return `<tr class="${item.selected ? "" : "ast-sub-row-disabled"}">
             <td class="ast-sub-td-check"><input type="checkbox" data-idx="${idx}" ${item.selected ? "checked" : ""}></td>
-            <td class="ast-td-title" title="${item.title.replace(/"/g, "&quot;")}">${shortTitle}</td>
+            <td class="ast-td-title" title="${escapeHtml(item.title)}">${escapeHtml(shortTitle)}</td>
             <td class="ast-td-num">${fmt(item.snsPrice)}</td>
-            <td>${item.frequency || "—"}</td>
-            <td>${item.freqCode}</td>
+            <td>${escapeHtml(item.frequency || "—")}</td>
+            <td>${escapeHtml(item.freqCode)}</td>
           </tr>`;
         })
         .join("");
@@ -1294,10 +1306,10 @@
         </div>
         <div class="ast-nav-counter">${state.index + 1} of ${items.length}</div>
         <div class="ast-nav-current">
-          <div class="ast-nav-title" title="${item.title.replace(/"/g, "&quot;")}">${shortTitle}</div>
+          <div class="ast-nav-title" title="${escapeHtml(item.title)}">${escapeHtml(shortTitle)}</div>
           <div class="ast-nav-meta">
             ${item.snsPrice != null ? `S&S Price: <strong>${fmt(item.snsPrice)}</strong>` : "No price found"}
-            ${item.frequency ? ` &nbsp;|&nbsp; ${item.frequency}` : ""}
+            ${item.frequency ? ` &nbsp;|&nbsp; ${escapeHtml(item.frequency)}` : ""}
           </div>
         </div>
         <div class="ast-nav-actions">
