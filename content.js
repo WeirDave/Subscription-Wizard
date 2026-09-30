@@ -616,7 +616,7 @@
         <td class="ast-td-addr">${r.bAddress || "—"}</td>
         <td class="ast-td-num">${fmt(r.pPrice)}</td>
         <td class="ast-td-num">${fmt(r.bPrice)}</td>
-        <td class="ast-td-num">${r.diff != null ? (r.diff > 0 ? "+" : "") + fmt(r.diff).replace("$", "$") : "—"}</td>
+        <td class="ast-td-num">${r.diff != null ? (r.diff > 0 ? "+" : "") + fmt(r.diff) : "—"}</td>
         <td class="ast-td-num">${r.annualDiff != null ? (r.annualDiff > 0 ? "+" : "") + "$" + Math.abs(r.annualDiff).toFixed(2) + "/yr" : "—"}</td>
         <td class="ast-td-winner ast-winner-${r.winner.toLowerCase().replace(/\s+/g, "")}">${r.winner}</td>
       </tr>`;
